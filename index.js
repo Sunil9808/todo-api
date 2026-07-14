@@ -1,4 +1,6 @@
 const express = require('express');
+const swaggerUi = require('swagger-ui-express');
+const openapiSpec = require('./openapi.json');
 
 const app = express();
 const port = 3000;
@@ -10,6 +12,8 @@ const tasks = [
   { id: 2, title: 'Build a CRUD API', done: false },
   { id: 3, title: 'Publish to GitHub', done: false },
 ];
+
+app.use('/docs', swaggerUi.serve, swaggerUi.setup(openapiSpec));
 
 app.get('/', (req, res) => {
   res.json({
@@ -96,6 +100,6 @@ app.delete('/tasks/:id', (req, res) => {
 });
 
 app.listen(port, () => {
-
   console.log(`Server listening on http://localhost:${port}`);
+  console.log(`Swagger UI available at http://localhost:${port}/docs`);
 });
